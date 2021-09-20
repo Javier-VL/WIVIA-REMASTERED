@@ -13,7 +13,7 @@ from pathlib import Path
 import numpy as np
 print("\nTRABAJANDO CON PYTHON: ", platform.python_version())
 
-#__________________________________________________________________________________
+#TODO:__________________________________________________________________________________
 def motorSuperior(inputPasos,inputDireccion):
     if(inputPasos >= 1):
         if inputDireccion.upper() == "H":
@@ -34,7 +34,7 @@ def motorSuperior(inputPasos,inputDireccion):
             #menu()
     else:
         print("CANTIDAD DE PASOS INVALIDA")
-
+#TODO:
 def motorInferior(inputPasos,inputDireccion):
     if(inputPasos >= 1):
         if inputDireccion.upper() == "H":
@@ -59,7 +59,7 @@ def motorInferior(inputPasos,inputDireccion):
 
 #__________________________________________________________________________________
 #FILE HANDLER
-
+#TODO:
 directorio = "f"
 directorio_padre ="C:/Users/Javier/Documents/INCO\MODULAR/MECANISMO/CODIGO/WIVIA/FILES/"
 file_name ="file.txt"
@@ -77,6 +77,7 @@ except:
 #SE CONECTA POR UDP Y OBTIENE UN VALOR DE SEÑAL CADA 250mls
 
 #UDP DEPENDENCIES
+#TODO:
 FORMAT ='utf-8'
 PORT = 9000
 SERVER = socket.gethostbyname(socket.gethostname()) #"192.168.0.29"
@@ -211,7 +212,7 @@ def createfile(horPXL,verPXL):
 
 start_time = time.time()
 
-
+#TODO:
 try:
     # Define the serial port and baud rate.
     arduino = serial.Serial('COM3', 9600)
