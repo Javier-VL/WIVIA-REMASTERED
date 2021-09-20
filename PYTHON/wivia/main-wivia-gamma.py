@@ -1,30 +1,33 @@
 
-from PYTHON.wivia.fileHandler import create_file, create_route
 import platform
 import numpy as np
 from mecanism import *
 from connection import *
+from fileHandler import *
 
 
-SOCK, ADDRESS = create_connection()
+SOCK, ADDRESS = create_connection(9000)
+ARDUINO = connect_arduino()
 TIMEOUT = 0.25#TIEMPO QUE RECIBIRA DATOS DEL HACKRONE
 pixel_list = []
 pixel =255
+ROUTE = create_route()
 
 def py_version():
     print("\nTRABAJANDO CON PYTHON: ", platform.python_version())
 
 def escaneo(horPXL,verPXL):
+    print("ESCANENADO")
     for filasV in range (1,verPXL):
         for columH in range (1,horPXL):
             get_freq(SOCK,TIMEOUT)
-            motor_superior(1,"A")
+            motor_superior(1,"A",ARDUINO)
         for columH in range (1,horPXL):
             #regresar a la posicion original
-            motor_superior(1,"H")
-            #time.sleep(0.3)
+            motor_superior(1,"H",ARDUINO)
+            #time.sleep(0.1)
         get_freq(SOCK,TIMEOUT)
-        motor_inferior(1,"A")
+        motor_inferior(1,"A",ARDUINO)
 
 def get_freq(conn,timeout):#esta funcion toma alrededor de 3milisegundos
     cont=1
@@ -48,7 +51,7 @@ def get_freq(conn,timeout):#esta funcion toma alrededor de 3milisegundos
     print("---------------------")     
 
 def writeArgbFile(rgb):
-    with open(create_route,'a+') as f:#SOLO ESTA ABIERTO DENTRO DE LA FUNCION
+    with open(ROUTE,'a+') as f:#SOLO ESTA ABIERTO DENTRO DE LA FUNCION
         f.write('255,')
         f.write('%s,' %rgb[0])
         f.write('%s,' %rgb[1])
@@ -88,12 +91,12 @@ def menu():
         
         opcion = int(input("Selecciona: "))
         if(opcion == 1):
-            mecanism_test()            
+            mecanism_test(ARDUINO)            
                       
         elif(opcion == 2):
             horizontal = int(input("Dimension Horizontal: "))
             vertical = int(input("Dimension Vertical: "))
-            create_file(horizontal,vertical,create_route)
+            create_file(horizontal,vertical,ROUTE)
             escaneo(horizontal,vertical)
                         
         elif(opcion == 0):

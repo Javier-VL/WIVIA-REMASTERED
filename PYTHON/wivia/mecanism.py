@@ -56,10 +56,10 @@ def motor_inferior(inputPasos,inputDireccion,arduino):
     else:
         print("CANTIDAD DE PASOS INVALIDA")
 
-def mecanism_test():
+def mecanism_test(arduino):
     for x in range(40):
         time.sleep(0.3)
-        motor_superior(1,"A")
+        motor_superior(1,"A",arduino)
     for x in range(30):
         time.sleep(0.3)
-        motor_inferior(1,"H")
+        motor_inferior(1,"H",arduino)

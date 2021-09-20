@@ -5,7 +5,7 @@ from pathlib import Path
 
 
 
-def create_route(directory="f",directoryFather="C:/Users/Javier/Documents/INCO\MODULAR/MECANISMO/CODIGO/WIVIA/FILES/",fileName="wivia.txt"):
+def create_route(directory="f",directoryFather="D:/Modular/WIVIA-LAP/WIVIA/FILES/",fileName="wivia.txt"):
     path = os.path.join(directoryFather,directory)#DEFINIENDO LA RUTA
 
     route = directoryFather+fileName
@@ -13,7 +13,7 @@ def create_route(directory="f",directoryFather="C:/Users/Javier/Documents/INCO\M
         os.mkdir(path)#CREANDO LA RUTA
     except:
         print("this ROUTE ALREADY EXIST")
-        pass
+        
 
     return route
 
@@ -25,3 +25,5 @@ def create_file(horPXL,verPXL,route):
         with open(route,'w') as f:#escribiendo las dimensiones
             f.write("%d\n"%horPXL)
             f.write("%d\n"%verPXL)
+
+    print("FILE CREADO")
