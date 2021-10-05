@@ -2,7 +2,7 @@ import socket
 import time
 
 
-def create_connection(port = 9001):   
+def create_connection(port = 9000):   
     try:         
         SERVER = socket.gethostbyname(socket.gethostname()) #"192.168.0.29"
         address =(SERVER, port)

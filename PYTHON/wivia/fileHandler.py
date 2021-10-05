@@ -3,9 +3,12 @@ from pathlib import Path
 
 #FILE HANDLER
 
+# directrio padre en pc:
+# C:/Users/Javier/Documents/INCO\MODULAR/MECANISMO/CODIGO/WIVIA/FILES/
+# directorio padre en lap:
+# D:/Modular/WIVIA-LAP/WIVIA/FILES/
 
-
-def create_route(directory="f",directoryFather="D:/Modular/WIVIA-LAP/WIVIA/FILES/",fileName="wivia.txt"):
+def create_route(directory="f",directoryFather="C:/Users/Javier/Documents/INCO\MODULAR/MECANISMO/CODIGO/WIVIA/FILES/",fileName="wivia.txt"):
     path = os.path.join(directoryFather,directory)#DEFINIENDO LA RUTA
 
     route = directoryFather+fileName

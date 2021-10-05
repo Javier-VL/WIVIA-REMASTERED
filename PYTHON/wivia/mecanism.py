@@ -2,14 +2,15 @@ import time
 import serial
 
 
+
 def connect_arduino():
     try:
         # Define the serial port and baud rate.
         arduino = serial.Serial('COM3', 9600)
         time.sleep(2)  # wait for the serial connection to initialize
-        return arduino        
+        return arduino,True        
     except:
-        return False
+        return False,False
 
 
 #def connectA
@@ -63,3 +64,4 @@ def mecanism_test(arduino):
     for x in range(30):
         time.sleep(0.3)
         motor_inferior(1,"H",arduino)
+
