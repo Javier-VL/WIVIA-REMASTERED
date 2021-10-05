@@ -17,12 +17,12 @@ def connect_arduino():
 
 def motor_superior(inputPasos,inputDireccion,arduino):
     if(inputPasos >= 1):
-        if inputDireccion.upper() == "H":
+        if inputDireccion.upper() == "H":#HORARIO
             #print(">")
             for i in range(inputPasos):               
                 time.sleep(0.1)
                 arduino.write(b'4')              
-        elif inputDireccion.upper() == "A":
+        elif inputDireccion.upper() == "A":#ANTIHORARIO
             #print("<")
             for i in range(inputPasos):                
                 time.sleep(0.1)
@@ -38,12 +38,12 @@ def motor_superior(inputPasos,inputDireccion,arduino):
 
 def motor_inferior(inputPasos,inputDireccion,arduino):
     if(inputPasos >= 1):
-        if inputDireccion.upper() == "H":
+        if inputDireccion.upper() == "H":#HORARIO
             #print(">")
             for i in range(inputPasos):               
                 time.sleep(0.1)
                 arduino.write(b'8')
-        elif inputDireccion.upper() == "A":
+        elif inputDireccion.upper() == "A":#ANTIHORARIO
             #print("<")
             for i in range(inputPasos):                
                 time.sleep(0.1)

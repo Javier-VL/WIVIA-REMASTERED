@@ -9,6 +9,7 @@ SOCK, ADDRESS = create_connection()
 ARDUINO,ISARDUINO = connect_arduino()
 TIMEOUT = 0.25#TIEMPO QUE RECIBIRA DATOS DEL HACKRONE
 pixel_list = []
+temp_vertical_list = []
 ROUTE = create_route() #route
 
 def py_version():
@@ -16,13 +17,13 @@ def py_version():
 
 def escaneo(horPXL,verPXL,):
 
-    for filasV in range (1,verPXL):
-        for columH in range (1,horPXL):
+    for filasV in range (1,horPXL):#fila -> 
+        for columH in range (1,verPXL):# columna ^
             get_freq(SOCK,TIMEOUT)
             if ISARDUINO:
                 motor_superior(1,"A",ARDUINO)
 
-        for columH in range (1,horPXL):
+        for columH in range (1,verPXL):
             #regresar a la posicion original
             if ISARDUINO:
                 motor_superior(1,"H",ARDUINO)
@@ -31,6 +32,40 @@ def escaneo(horPXL,verPXL,):
         if ISARDUINO:
             motor_inferior(1,"A",ARDUINO)
 
+def escaneoOptimo(horPXL,verPXL,):
+    isUp =False
+    for filasV in range (1,horPXL):
+        #escaneo antihorario SUBE
+        if not isUp:
+            #Realiza Todos los pasos de manera vertical y los concatena en el arreglo de esa columna
+            for columH in range (1,verPXL):
+                getFullFrecuency(SOCK,TIMEOUT)
+                if ISARDUINO:
+                    motor_superior(1,"A",ARDUINO)
+            #escribir todos los valores de esa columna
+            for item in range(temp_vertical_list):
+                writeArgbFile(item)
+            #dar paso en sentido horario en horizontal
+            if ISARDUINO:
+                motor_inferior(1,"A",ARDUINO)
+
+            isUp = True#indicamos que la antena se encuentra arriba
+            temp_vertical_list.clear() #limpiar para concatenar desde 0 en el siguiente paso
+        elif isUp:
+            #Realiza Todos los pasos de manera vertical y antihorario
+            for columH in range (1,verPXL):
+                getFullFrecuency(SOCK,TIMEOUT)
+                if ISARDUINO:
+                    motor_superior(1,"H",ARDUINO)
+            #escribir todos los valores de esa columna(Al reves devido a que en este momento comienza desde arriba)
+            for item in reversed(temp_vertical_list):
+                writeArgbFile(item)
+            #dar paso en sentido horario en horizontal
+            if ISARDUINO:
+                motor_inferior(1,"A",ARDUINO)
+
+            isUp = False#indicamos que la antena se encuentra abajo
+            temp_vertical_list.clear()
 
 def get_freq(conn,timeout):#esta funcion toma alrededor de 3milisegundos
     cont=1
@@ -69,9 +104,11 @@ def getFullFrecuency(conn,timeout):
     rgb = getRGBfromlist(datalist)
 
     print(f"VALOR EN RGB {rgb}")
-    #writeArgbFile(rgb)
+    temp_vertical_list.append(rgb)
     print("---------------------") 
 
+def create_hoz_rgb():
+    pass
 
 def writeArgbFile(rgb):
     with open(ROUTE,'a+') as f:#SOLO ESTA ABIERTO DENTRO DE LA FUNCION
@@ -93,7 +130,7 @@ def getRGBfromlist(pixel_list):
     for x in range (0,3,1):
         multi =2 
         if(x==0):
-            #FIXME: aplicando ecuacion antes de tiempo jeje
+            
             pixel_R = templist[1]
             pixel_R = promedio(pixel_R)
             pixel_R = np.round(multi*((0.3)*pixel_R))
@@ -130,7 +167,7 @@ def menu():
             horizontal = int(input("Dimension Horizontal: "))
             vertical = int(input("Dimension Vertical: "))
             create_file(horizontal,vertical,ROUTE)
-            escaneo(horizontal,vertical)
+            escaneoOptimo(horizontal,vertical)
         elif(opcion == 3):
             for i in range(5):
                 getFullFrecuency(SOCK,TIMEOUT)

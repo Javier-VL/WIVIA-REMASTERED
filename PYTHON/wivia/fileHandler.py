@@ -26,7 +26,7 @@ def create_file(horPXL,verPXL,route):
         pass
     else:
         with open(route,'w') as f:#escribiendo las dimensiones
-            f.write("%d\n"%horPXL)
             f.write("%d\n"%verPXL)
+            f.write("%d\n"%horPXL)
 
     print("FILE CREADO")
