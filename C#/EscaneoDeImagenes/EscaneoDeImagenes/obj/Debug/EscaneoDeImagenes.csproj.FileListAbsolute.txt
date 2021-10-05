@@ -1,0 +1,10 @@
+D:\Modular\Imagen\C#\ScanImage\EscaneoDeImagenes\EscaneoDeImagenes\bin\Debug\EscaneoDeImagenes.exe.config
+D:\Modular\Imagen\C#\ScanImage\EscaneoDeImagenes\EscaneoDeImagenes\bin\Debug\EscaneoDeImagenes.exe
+D:\Modular\Imagen\C#\ScanImage\EscaneoDeImagenes\EscaneoDeImagenes\bin\Debug\EscaneoDeImagenes.pdb
+D:\Modular\Imagen\C#\ScanImage\EscaneoDeImagenes\EscaneoDeImagenes\obj\Debug\EscaneoDeImagenes.csprojAssemblyReference.cache
+D:\Modular\Imagen\C#\ScanImage\EscaneoDeImagenes\EscaneoDeImagenes\obj\Debug\EscaneoDeImagenes.Form1.resources
+D:\Modular\Imagen\C#\ScanImage\EscaneoDeImagenes\EscaneoDeImagenes\obj\Debug\EscaneoDeImagenes.Properties.Resources.resources
+D:\Modular\Imagen\C#\ScanImage\EscaneoDeImagenes\EscaneoDeImagenes\obj\Debug\EscaneoDeImagenes.csproj.GenerateResource.cache
+D:\Modular\Imagen\C#\ScanImage\EscaneoDeImagenes\EscaneoDeImagenes\obj\Debug\EscaneoDeImagenes.csproj.CoreCompileInputs.cache
+D:\Modular\Imagen\C#\ScanImage\EscaneoDeImagenes\EscaneoDeImagenes\obj\Debug\EscaneoDeImagenes.exe
+D:\Modular\Imagen\C#\ScanImage\EscaneoDeImagenes\EscaneoDeImagenes\obj\Debug\EscaneoDeImagenes.pdb
