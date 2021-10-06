@@ -10,7 +10,7 @@ ARDUINO,ISARDUINO = connect_arduino()
 TIMEOUT = 0.25#TIEMPO QUE RECIBIRA DATOS DEL HACKRONE
 pixel_list = []
 temp_vertical_list = []
-ROUTE = create_route() #route
+ROUTE = create_route(directoryFather="D:/Modular/WIVIA-LAP/WIVIA/FILES/") #route
 
 def py_version():
     print("\nTRABAJANDO CON PYTHON: ", platform.python_version())
@@ -43,8 +43,9 @@ def escaneoOptimo(horPXL,verPXL,):
                 if ISARDUINO:
                     motor_superior(1,"A",ARDUINO)
             #escribir todos los valores de esa columna
-            for item in range(temp_vertical_list):
-                writeArgbFile(item)
+            for item in range(len(temp_vertical_list)):
+                print("ITEM",item)
+                writeArgbFile(temp_vertical_list[item])
             #dar paso en sentido horario en horizontal
             if ISARDUINO:
                 motor_inferior(1,"A",ARDUINO)
@@ -59,7 +60,7 @@ def escaneoOptimo(horPXL,verPXL,):
                     motor_superior(1,"H",ARDUINO)
             #escribir todos los valores de esa columna(Al reves devido a que en este momento comienza desde arriba)
             for item in reversed(temp_vertical_list):
-                writeArgbFile(item)
+                writeArgbFile(item)  
             #dar paso en sentido horario en horizontal
             if ISARDUINO:
                 motor_inferior(1,"A",ARDUINO)
@@ -121,7 +122,7 @@ def writeArgbFile(rgb):
 def getRGBfromlist(pixel_list):
     #dividiendo la lista en 3 y convirtiendo a valores utiles en rgb
     templist= np.array_split(pixel_list,3)
-    print(templist)
+    #print(templist)
     pixel_R =[]
     pixel_G =[]
     pixel_B =[]
@@ -167,7 +168,7 @@ def menu():
             horizontal = int(input("Dimension Horizontal: "))
             vertical = int(input("Dimension Vertical: "))
             create_file(horizontal,vertical,ROUTE)
-            escaneoOptimo(horizontal,vertical)
+            escaneoOptimo(horizontal+1,vertical+1)
         elif(opcion == 3):
             for i in range(5):
                 getFullFrecuency(SOCK,TIMEOUT)
