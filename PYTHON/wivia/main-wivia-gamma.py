@@ -3,6 +3,8 @@ import numpy as np
 from mecanism import *
 from connection import *
 from fileHandler import *
+from imageHandler import *
+from imageGenerator import *
 
 
 SOCK, ADDRESS = create_connection()
@@ -33,65 +35,68 @@ def escaneo(horPXL,verPXL,):
             motor_inferior(1,"A",ARDUINO)
 
 def escaneoOptimo(horPXL,verPXL,):
-    isUp =False
-    for filasV in range (1,horPXL):
+    f_c =(1,1)#tupla de fila y columna
+    isUp =False #Siempre comienza abajo
+    for filasV in range (1,horPXL+1):
         #escaneo antihorario SUBE
         if not isUp:
             #Realiza Todos los pasos de manera vertical y los concatena en el arreglo de esa columna
-            for columH in range (1,verPXL):
-                getFullFrecuency(SOCK,TIMEOUT)
+            for columH in range (1,verPXL+1):
+                getFullFrecuency(SOCK,TIMEOUT,f_c)
                 if ISARDUINO:
                     motor_superior(1,"A",ARDUINO)
+                f_c[1] =f_c[1]+1 #INCREMENTANDO LA COLUMNA EN 1 (CADA PASO)
             #escribir todos los valores de esa columna
             for item in range(len(temp_vertical_list)):
                 print("ITEM",item)
                 writeArgbFile(temp_vertical_list[item])
+
             #dar paso en sentido horario en horizontal
             if ISARDUINO:
                 motor_inferior(1,"A",ARDUINO)
+                f_c[0] = f_c[0]+1 # incrementando la fila en 1
 
             isUp = True#indicamos que la antena se encuentra arriba
             temp_vertical_list.clear() #limpiar para concatenar desde 0 en el siguiente paso
         elif isUp:
             #Realiza Todos los pasos de manera vertical y antihorario
-            for columH in range (1,verPXL):
-                getFullFrecuency(SOCK,TIMEOUT)
+            for columH in range (1,verPXL+1):
+                getFullFrecuency(SOCK,TIMEOUT,f_c)
                 if ISARDUINO:
                     motor_superior(1,"H",ARDUINO)
+                    f_c[1] =f_c[1]-1 #DECREMENTANDO LA COLUMNA EN 1 (CADA PASO)
             #escribir todos los valores de esa columna(Al reves devido a que en este momento comienza desde arriba)
             for item in reversed(temp_vertical_list):
                 writeArgbFile(item)  
             #dar paso en sentido horario en horizontal
             if ISARDUINO:
                 motor_inferior(1,"A",ARDUINO)
+                f_c[0] = f_c[0]+1 # incrementando la fila en 1
 
             isUp = False#indicamos que la antena se encuentra abajo
             temp_vertical_list.clear()
 
-def get_freq(conn,timeout):#esta funcion toma alrededor de 3milisegundos
+def get_freq(conn,timeout,id):#esta funcion toma alrededor de 3milisegundos
     cont=1
-    #lista = []
     time_start = time.time()#Comenzando contador
     while time.time() < time_start + timeout:#Recibir data por los 250milisigundos
-        databyte = conn.recv(1024)
+        databyte = conn.recv(1000)
         datalist = list(databyte)
-        
-        #pixel_list.append(promedio(datalist))
-        #lista.append(promedio(datalist))
-
         cont+=1
-
+        
     print(f"{cont}|FINALIZO EN: ")
     print("--- %s seconds ---" % (time.time() - time_start))
-    rgb = getRGBfromlist(datalist)
-    print(f"ENTIRE LIST SIZE{len(datalist)}")
+    splitList(datalist,id)
+    #rgb = getRGBfromlist(datalist)
+    #print(f"ENTIRE LIST SIZE{len(datalist)}")
+    #print("list",datalist)
     #print(f"ENTIRE pixel list SIZE{len(pixel_list)}")
-    print(f"VALOR EN RGB {rgb}")
-    writeArgbFile(rgb)
+    #print(f"VALOR EN RGB {rgb}")
+    #writeArgbFile(rgb)
     print("---------------------") 
    
 
-def getFullFrecuency(conn,timeout):
+def getFullFrecuency(conn,timeout,f_c):
     cont=1
     time_start = time.time()#Comenzando contador
     while time.time() < time_start + timeout:#Recibir data por los 250milisigundos
@@ -102,6 +107,7 @@ def getFullFrecuency(conn,timeout):
 
     print(f"{cont}|FINALIZO EN: ")
     print("--- %s seconds ---" % (time.time() - time_start))
+    splitList(datalist,f_c)
     rgb = getRGBfromlist(datalist)
 
     print(f"VALOR EN RGB {rgb}")
@@ -115,7 +121,7 @@ def writeArgbFile(rgb):
     with open(ROUTE,'a+') as f:#SOLO ESTA ABIERTO DENTRO DE LA FUNCION
         f.write('255,')#a
         f.write('%s,' %rgb[0])#r
-        f.write('%s,' %rgb[1])#g
+        f.write('%s,' %rgb[1])#g0
         f.write('%s' %rgb[2])#b
         f.write('\n')
 
@@ -159,19 +165,27 @@ def menu():
         print("1 |RUTINA DE PRUEBA")
         print("2 |Escaneo")
         print("3 |Test packing")
+        print("4|mostrarimagenprueba")
         
         opcion = int(input("Selecciona: "))
         if(opcion == 1) and ISARDUINO:
             mecanism_test(ARDUINO)            
                       
         elif(opcion == 2):
+            print("\tInserte Resolucion de la imagen")
             horizontal = int(input("Dimension Horizontal: "))
             vertical = int(input("Dimension Vertical: "))
             create_file(horizontal,vertical,ROUTE)
-            escaneoOptimo(horizontal+1,vertical+1)
+            horizontal= horizontal/5 #Reducien el numero de pasos porque cada paso contendra una matriz de 5x5pixeles
+            vertical = vertical/5
+            escaneoOptimo(horizontal,vertical)
         elif(opcion == 3):
-            for i in range(5):
-                getFullFrecuency(SOCK,TIMEOUT)
+            for i in range(8):
+                f_c=(2,i)
+                get_freq(SOCK,TIMEOUT,f_c)
+        elif(opcion == 4):
+            columns= loadColumnsRF(6,2,1)
+            showFinalImage(columns)
                         
         elif(opcion == 0):
             break

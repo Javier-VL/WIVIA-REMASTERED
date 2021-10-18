@@ -8,7 +8,9 @@ def create_connection(port = 9000):
         address =(SERVER, port)
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         sock.bind((SERVER,port))
+        print(f"{address} Server")
         return sock,address
+        
     except:
         return False,False
  

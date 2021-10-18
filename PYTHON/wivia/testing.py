@@ -1,8 +1,9 @@
-hozRgbValues = []
+f_c = (11,16)
+print(f_c[0])
+print(f_c[1])
 
-rgb = [255,555,666]
+isUp = False
 
-for x in range(5):
-    hozRgbValues.append(rgb)
-
-print(hozRgbValues)
+if not isUp:
+    for x in range (1,2+1):
+        print(x)
