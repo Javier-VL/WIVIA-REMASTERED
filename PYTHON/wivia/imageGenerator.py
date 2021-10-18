@@ -5,15 +5,16 @@
 #144 filas
 import cv2
 
+ROUTEIMAGE = ""
 
 def loadImagesC(verticalLenght,filaPos):#idealmente seran 96 por columna
     imagesC=[]
     fila=filaPos
-    for i in range(0,verticalLenght+1):
+    for i in range(1,verticalLenght+1):
         imagesC.append(cv2.imread(f"C:/Users/Javier/Documents/INCO/MODULAR/IMAGES/TEST/F{fila}-C{i}_img.png"))
     return imagesC
 
-
+                    #^columzise  #>filasize       #
 def loadColumnsRF(verticalLength,horizontalLength,filaPos):
     column=[]
     fila=filaPos
@@ -26,6 +27,7 @@ def loadColumnsRF(verticalLength,horizontalLength,filaPos):
 def showFinalImage(filas):
     finalImage = cv2.hconcat([*filas])
     cv2.imshow("FINALIMAGE: ",finalImage)
+    cv2.imwrite("C:/Users/Javier/Documents/INCO/MODULAR/IMAGES/FINAL.jpg",finalImage)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
     

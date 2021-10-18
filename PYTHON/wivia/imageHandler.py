@@ -11,12 +11,12 @@ def splitList(datalist,f_c):
 
         #datalist_split[datalist_split.index(x)] = statistics.mean(x)
     #print(f"Longitud: {len(datalist_split)}")
-    print(datalist_split)
+    #print(datalist_split)
     createStepImage(datalist_split,f_c)
 
 def createStepImage(list,f_c):
     l = list
-    print("nparray: ", list)
+    #print("nparray: ", list)
     step = np.array([[l[0],l[1],l[2],l[3],l[4]],
                      [l[5],l[6],l[7],l[8],l[9]],
                      [l[10],l[11],l[12],l[13],l[14]],

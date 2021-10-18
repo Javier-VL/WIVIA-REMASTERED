@@ -35,43 +35,49 @@ def escaneo(horPXL,verPXL,):
             motor_inferior(1,"A",ARDUINO)
 
 def escaneoOptimo(horPXL,verPXL,):
-    f_c =(1,1)#tupla de fila y columna
+    f_c =[]#tupla de fila y columna
+    f_c.append(1)
+    f_c.append(1)
     isUp =False #Siempre comienza abajo
     for filasV in range (1,horPXL+1):
         #escaneo antihorario SUBE
         if not isUp:
             #Realiza Todos los pasos de manera vertical y los concatena en el arreglo de esa columna
             for columH in range (1,verPXL+1):
-                getFullFrecuency(SOCK,TIMEOUT,f_c)
+                print("columna incre: ",f_c[1])
+                get_freq(SOCK,TIMEOUT,f_c)
                 if ISARDUINO:
                     motor_superior(1,"A",ARDUINO)
                 f_c[1] =f_c[1]+1 #INCREMENTANDO LA COLUMNA EN 1 (CADA PASO)
             #escribir todos los valores de esa columna
-            for item in range(len(temp_vertical_list)):
-                print("ITEM",item)
-                writeArgbFile(temp_vertical_list[item])
+        #    for item in range(len(temp_vertical_list)):
+         #       print("ITEM",item)
+         #       writeArgbFile(temp_vertical_list[item])
 
             #dar paso en sentido horario en horizontal
             if ISARDUINO:
                 motor_inferior(1,"A",ARDUINO)
-                f_c[0] = f_c[0]+1 # incrementando la fila en 1
-
+                #f_c[0] = f_c[0]+1 # incrementando la fila en 1
+            f_c[0] = filasV
+            
             isUp = True#indicamos que la antena se encuentra arriba
             temp_vertical_list.clear() #limpiar para concatenar desde 0 en el siguiente paso
         elif isUp:
             #Realiza Todos los pasos de manera vertical y antihorario
             for columH in range (1,verPXL+1):
-                getFullFrecuency(SOCK,TIMEOUT,f_c)
+                f_c[1] =f_c[1]-1 #DECREMENTANDO LA COLUMNA EN 1 (CADA PASO)
+                print("columna decre: ",f_c[1])
+                get_freq(SOCK,TIMEOUT,f_c)
                 if ISARDUINO:
                     motor_superior(1,"H",ARDUINO)
-                    f_c[1] =f_c[1]-1 #DECREMENTANDO LA COLUMNA EN 1 (CADA PASO)
             #escribir todos los valores de esa columna(Al reves devido a que en este momento comienza desde arriba)
-            for item in reversed(temp_vertical_list):
-                writeArgbFile(item)  
+         #   for item in reversed(temp_vertical_list):
+         #       writeArgbFile(item)  
             #dar paso en sentido horario en horizontal
             if ISARDUINO:
                 motor_inferior(1,"A",ARDUINO)
-                f_c[0] = f_c[0]+1 # incrementando la fila en 1
+                #f_c[0] = f_c[0]+1 # incrementando la fila en 1
+            f_c[0] = filasV
 
             isUp = False#indicamos que la antena se encuentra abajo
             temp_vertical_list.clear()
@@ -110,7 +116,7 @@ def getFullFrecuency(conn,timeout,f_c):
     splitList(datalist,f_c)
     rgb = getRGBfromlist(datalist)
 
-    print(f"VALOR EN RGB {rgb}")
+    #print(f"VALOR EN RGB {rgb}")
     temp_vertical_list.append(rgb)
     print("---------------------") 
 
@@ -175,16 +181,24 @@ def menu():
             print("\tInserte Resolucion de la imagen")
             horizontal = int(input("Dimension Horizontal: "))
             vertical = int(input("Dimension Vertical: "))
-            create_file(horizontal,vertical,ROUTE)
+           # create_file(horizontal,vertical,ROUTE)
             horizontal= horizontal/5 #Reducien el numero de pasos porque cada paso contendra una matriz de 5x5pixeles
             vertical = vertical/5
-            escaneoOptimo(horizontal,vertical)
+            print("horizontal: ",horizontal," | vertical: ",vertical)
+            escaneoOptimo(int(horizontal+1),int(vertical))
         elif(opcion == 3):
-            for i in range(8):
+            for i in range(1,5):
+                f_c=(1,i)
+                get_freq(SOCK,TIMEOUT,f_c)
+            for i in range(1,5):
                 f_c=(2,i)
                 get_freq(SOCK,TIMEOUT,f_c)
+            for i in range(1,5):
+                f_c=(3,i)
+                get_freq(SOCK,TIMEOUT,f_c)
         elif(opcion == 4):
-            columns= loadColumnsRF(6,2,1)
+                                #C4|F3
+            columns= loadColumnsRF(4,3,1)
             showFinalImage(columns)
                         
         elif(opcion == 0):
