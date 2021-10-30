@@ -7,7 +7,7 @@ Z = np.random.rand(6, 10)
 x = np.arange(-0.5, 10, 1)  # len = 11
 y = np.arange(4.5, 11, 1)  # len = 7
 
-l = [139, 136, 143, 136, 127, 103, 135, 109, 108, 125, 117, 136, 129, 109, 125, 134, 119, 121, 113, 104, 138, 124, 131, 131, 107]
+l = [139, 136, 143, 136, 127, 103, 135, 109, 108, 125, 117, 136, 129, 109, 125, 134, 119, 121, 113, 104, 138, 124, 131, 131, 139]
 #h = np.array([[list[0],234,23,123,87],
 #              [98,57,234,234,234],
 #              [234,342,452,452,234],
@@ -23,12 +23,12 @@ step = np.array([[l[0],l[1],l[2],l[3],l[4]],
 #lineas magicas, para guardar el np.arrar de 5*5, como una imagen de 5x5pixeles
 fig, ax = plt.subplots()
 #ax.imshow(h)
-#plt.show()
+
 plt.axis('off')
 fig.set_size_inches(.5,.5)
 ax.imshow(step)
 fig.savefig('out.png', bbox_inches='tight', pad_inches=0,dpi=15)
-
+plt.show()
 
 #TODO:
 #convertir el arreglo proveniente dela señal, a una matriz de 5x5 para el numpy arrar

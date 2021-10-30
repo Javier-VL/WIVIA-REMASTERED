@@ -3,8 +3,8 @@ import numpy as np
 from mecanism import *
 from connection import *
 from fileHandler import *
-from imageHandler import *
-from imageGenerator import *
+from V2imageHandler import *
+from V2imageGenerator import *
 
 
 SOCK, ADDRESS = create_connection()
@@ -96,7 +96,6 @@ def get_freq(conn,timeout,id):#esta funcion toma alrededor de 3milisegundos
     #rgb = getRGBfromlist(datalist)
     #print(f"ENTIRE LIST SIZE{len(datalist)}")
     #print("list",datalist)
-    #print(f"ENTIRE pixel list SIZE{len(pixel_list)}")
     #print(f"VALOR EN RGB {rgb}")
     #writeArgbFile(rgb)
     print("---------------------") 
@@ -190,15 +189,17 @@ def menu():
             for i in range(1,5):
                 f_c=(1,i)
                 get_freq(SOCK,TIMEOUT,f_c)
-            for i in range(1,5):
-                f_c=(2,i)
-                get_freq(SOCK,TIMEOUT,f_c)
-            for i in range(1,5):
-                f_c=(3,i)
-                get_freq(SOCK,TIMEOUT,f_c)
+            
+            #for i in range(1,5):
+            #    f_c=(2,i)
+            #    get_freq(SOCK,TIMEOUT,f_c)
+            #for i in range(1,5):
+            #    f_c=(3,i)
+            #    get_freq(SOCK,TIMEOUT,f_c)
         elif(opcion == 4):
                                 #C4|F3
-            columns= loadColumnsRF(4,3,1)
+            columns= loadColumnsRF(10,10,1)
+            #print(columns)
             showFinalImage(columns)
                         
         elif(opcion == 0):
