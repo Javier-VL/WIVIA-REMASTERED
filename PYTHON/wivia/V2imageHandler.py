@@ -3,6 +3,8 @@ import numpy as np
 import statistics
 #import matplotlib.pyplot as plt
 #import time
+rutapc ="C:/Users/Javier/Documents/INCO/MODULAR/IMAGES/TEST2/F"
+rutalap ="D:/Modular/CODE 2 GEN/IMAGES/TEST/F"
 
 def splitList(datalist,f_c):
     datalist_split = np.array_split(datalist,25) #dividiendo el flujo obtenido en 25, para la matriz 5x5 de pixeles de cada paso

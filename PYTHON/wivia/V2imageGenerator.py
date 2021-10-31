@@ -7,6 +7,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+rutapc ="C:/Users/Javier/Documents/INCO/MODULAR/IMAGES/TEST2/F"
+rutalap ="D:/Modular/CODE 2 GEN/IMAGES/TEST/F"
 
 def loadImagesC(verticalLenght,filaPos):#idealmente seran 96 por columna
     imagesC=[]
